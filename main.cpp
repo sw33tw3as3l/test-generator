@@ -55,8 +55,10 @@ int main(int argc, char *argv[]) {
                 L = _atoi64(argv[i+1]);
             } else if(str == "-r") {
                 R = _atoi64(argv[i+1]);
-            } else if(str == "-tn") {
-                mp["tn"] = _atoi64(argv[i+1]);
+            } else if(str == "-tl") {
+                mp["tl"] = _atoi64(argv[i+1]);
+            } else if(str == "-tr") {
+                mp["tr"] = _atoi64(argv[i+1]);
             }
         }
         
@@ -64,7 +66,7 @@ int main(int argc, char *argv[]) {
         char const *init_command = command.c_str();
         system(init_command);
 
-        for(int i=1; i<=mp["tn"]; i++) {
+        for(int i=mp["tl"]; i<=mp["tr"]; i++) {
             command = "array.exe -n "; command += to_string(mp["n"]); command+=" ";
             command += "-tn "; command += to_string(i); command+=" ";
             command += "-l "; command += to_string(L); command+=" ";
@@ -85,8 +87,10 @@ int main(int argc, char *argv[]) {
                 L = _atoi64(argv[i+1]);
             } else if(str == "-r") {
                 R = _atoi64(argv[i+1]);
-            } else if(str == "-tn") {
-                mp["tn"] = _atoi64(argv[i+1]);
+            } else if(str == "-tl") {
+                mp["tl"] = _atoi64(argv[i+1]);
+            } else if(str == "-tr") {
+                mp["tr"] = _atoi64(argv[i+1]);
             } else if(str == "-hasw") {
                 mp["hasw"] = 1;
             }
@@ -96,9 +100,47 @@ int main(int argc, char *argv[]) {
         char const *init_command = command.c_str();
         system(init_command);
 
-        for(int i=1; i<=mp["tn"]; i++) {
+        for(int i=mp["tl"]; i<=mp["tr"]; i++) {
             command = "tree.exe -n "; command += to_string(mp["n"]); command+=" ";
             command += "-tn "; command += to_string(i); command+=" ";
+            command += "-l "; command += to_string(L); command+=" ";
+            command += "-r "; command += to_string(R); command+=" ";
+            command += "-t "; command += to_string(mp["t"]); command += " ";
+            command += "-hasw "; command += to_string(mp["hasw"]);
+
+            char const *running_command = command.c_str();
+            system(running_command);
+        }
+    } else if(test_type == "graph") {
+        for(int i=2; i<argc; i+=2) {
+            string str(argv[i]);
+            if(str == "-n") {
+                mp["n"] = _atoi64(argv[i+1]);
+            } else if(str == "-t") {
+                mp["t"] = _atoi64(argv[i+1]);
+            } else if(str == "-m") {
+                mp["m"] = _atoi64(argv[i+1]);
+            } else if (str == "-l") {
+                L = _atoi64(argv[i+1]);
+            } else if(str == "-r") {
+                R = _atoi64(argv[i+1]);
+            } else if(str == "-tl") {
+                mp["tl"] = _atoi64(argv[i+1]);
+            } else if(str == "-tr") {
+                mp["tr"] = _atoi64(argv[i+1]);
+            } else if(str == "-hasw") {
+                mp["hasw"] = 1;
+            }
+        }
+        
+        string command = "g++ graph-generator.cpp -o graph.exe";
+        char const *init_command = command.c_str();
+        system(init_command);
+
+        for(int i=mp["tl"]; i<=mp["tr"]; i++) {
+            command = "graph.exe -n "; command += to_string(mp["n"]); command+=" ";
+            command += "-tn "; command += to_string(i); command+=" ";
+            command += "-m "; command += to_string(mp["m"]); command+=" ";
             command += "-l "; command += to_string(L); command+=" ";
             command += "-r "; command += to_string(R); command+=" ";
             command += "-t "; command += to_string(mp["t"]); command += " ";
